@@ -1,6 +1,10 @@
 :root {
-    --text-color: #202020;
+    --text-color: #282828;
+    --bold-text-color: #280800;
     --back-color: #e8e8e8;
+    --card-color: #ffffff;
+    --card-border-color: #445566;
+    --read-border-color: #94331a;
 }
 
 body {
@@ -9,9 +13,21 @@ body {
     background: var(--back-color);
 }
 
+.book {
+    background-color: var(--card-color);
+    border: 0.2rem solid var(--card-border-color);
+}
+
+.book.read {
+    border: 0.2rem solid var(--read-border-color);
+    border-left: 0.8rem solid var(--read-border-color);
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --text-color: #e8e8e8;
-        --back-color: #202020;
+        --bold-text-color: #fff8e8;
+        --back-color: #000000;
+        --card-color: #202020;
     }
 }
