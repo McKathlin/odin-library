@@ -21,8 +21,23 @@ body {
 }
 
 .book {
+    text-align: center;
     background-color: var(--card-color);
     border: 0.2rem solid var(--card-border-color);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.book .title-line {
+    color: var(--bold-text-color);
+    font-weight: bold;
+}
+
+.book .author-line {
+    color: var(--bold-text-color);
+    margin-bottom: auto;
 }
 
 .book.read {
