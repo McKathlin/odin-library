@@ -30,7 +30,6 @@ const library = [
 const bookListNode = document.getElementById("book-list");
 bookListNode.replaceChildren();
 for (const currentBook of library) {
-    // TODO: Make book display fancier
     let listItem = makeBookNode(currentBook);
     bookListNode.appendChild(listItem);
 }
@@ -38,6 +37,11 @@ for (const currentBook of library) {
 function makeBookNode(theBook) {
     let bookNode = document.createElement("div");
     bookNode.classList.add("book");
+    if (theBook.isRead) {
+        bookNode.classList.add("read");
+    } else {
+        bookNode.classList.add("unread");
+    }
 
     let titleNode = document.createElement("p");
     titleNode.classList.add("title-line");
