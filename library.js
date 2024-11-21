@@ -36,8 +36,29 @@ for (const currentBook of library) {
 }
 
 function makeBookNode(theBook) {
-    let listItem = document.createElement("div");
-    listItem.classList.add("book");
-    listItem.textContent = theBook.info();
-    return listItem;
+    let bookNode = document.createElement("div");
+    bookNode.classList.add("book");
+
+    let titleNode = document.createElement("p");
+    titleNode.classList.add("title-line");
+    titleNode.textContent = theBook.title;
+    bookNode.appendChild(titleNode);
+
+    let authorNode = document.createElement("p");
+    authorNode.classList.add("author-line");
+    authorNode.textContent = `by ${theBook.author}`;
+    bookNode.appendChild(authorNode);
+
+    let pageCountNode = document.createElement("p");
+    pageCountNode.classList.add("page-count-line");
+    pageCountNode.textContent = `${theBook.pageCount} pages`;
+    bookNode.appendChild(pageCountNode);
+
+    let isReadNode = document.createElement("p");
+    isReadNode.classList.add("is-read-line");
+    isReadNode.textContent = theBook.isRead ?
+        "You've read it!" : "You have not read this book yet.";
+    bookNode.appendChild(isReadNode);
+
+    return bookNode;
 }
