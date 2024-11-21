@@ -31,9 +31,13 @@ const bookListNode = document.getElementById("book-list");
 bookListNode.replaceChildren();
 for (const currentBook of library) {
     // TODO: Make book display fancier
-    let listItem = document.createElement("li");
-    listItem.classList.add("book");
-    listItem.textContent = currentBook.info();
-    console.log(Object.getPrototypeOf(currentBook));
+    let listItem = makeBookNode(currentBook);
     bookListNode.appendChild(listItem);
+}
+
+function makeBookNode(theBook) {
+    let listItem = document.createElement("div");
+    listItem.classList.add("book");
+    listItem.textContent = theBook.info();
+    return listItem;
 }
