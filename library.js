@@ -15,7 +15,11 @@ Object.defineProperties(Library.prototype, {
 });
 
 Library.prototype.getBookById = function(id) {
-    return this._bookById[id];
+    if (id in this._bookById) {
+        return this._bookById[id];
+    } else {
+        return null;
+    }
 };
 
 Library.prototype.addBook = function(title, author, pageCount, haveRead) {
@@ -123,13 +127,33 @@ LibraryView.makeBookNode = function(theBook) {
 
     let actionIcons = document.createElement("div");
     actionIcons.classList.add("book-actions");
-    let deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete");
-    actionIcons.appendChild(deleteButton);
+    actionIcons.appendChild(this.makeDeleteButton(theBook));
     bookNode.appendChild(actionIcons);
 
     return bookNode;
 }
+
+LibraryView.makeDeleteButton = function(targetBook) {
+    let deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete");
+    deleteButton.setAttribute("book-id", targetBook.id);
+    deleteButton.addEventListener("click", function(event) {
+        console.log("Delete button clicked!");
+        const bookId = event.target.getAttribute("book-id");
+        const book = LibraryController.getBookById(bookId);
+        if (!book) {
+            return; // Can't fint book to delete it
+        }
+        const confirmed = confirm(
+            `${book.info()}
+            Do you really want to delete this book?`
+        );
+        if (confirmed) {
+            LibraryController.removeBook(book.id);
+        }
+    });
+    return deleteButton;
+};
 
 //=============================================================================
 // Controls
@@ -162,10 +186,19 @@ newBookButton.addEventListener("click", function() {
 
 LibraryController = {};
 
+LibraryController.getBookById = function(id) {
+    return myLibrary.getBookById(id);
+}
+
 LibraryController.addBook = function(title, author, pageCount, isRead) {
     myLibrary.addBook(title, author, pageCount, isRead);
     LibraryView.populate(myLibrary.books);
-}
+};
+
+LibraryController.removeBook = function(id) {
+    myLibrary.removeBook(id);
+    LibraryView.populate(myLibrary.books);
+};
 
 //=============================================================================
 // Page setup
