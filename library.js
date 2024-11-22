@@ -89,51 +89,98 @@ LibraryView.populate = function(books) {
     const newBookForm = document.getElementById("new-book-form");
     bookListNode.replaceChildren();
     for (const currentBook of books) {
-        let listItem = this.makeBookNode(currentBook);
+        let listItem = this._makeBookNode(currentBook);
         bookListNode.appendChild(listItem);
     }
     bookListNode.appendChild(newBookForm);
 };
 
-LibraryView.makeBookNode = function(theBook) {
-    let bookNode = document.createElement("div");
-    bookNode.classList.add("book");
-    if (theBook.isRead) {
-        bookNode.classList.add("read");
-    } else {
-        bookNode.classList.add("unread");
+LibraryView.refreshBook = function(bookId) {
+    const bookListNode = document.getElementById("book-list");
+    const bookNode = bookListNode.querySelector(`.book[book-id="${bookId}"]`);
+    if (!bookNode) {
+        return;
     }
+    this._refreshBookNode(bookNode);
+}
+
+LibraryView._makeBookNode = function(theBook) {
+    let bookNode = document.createElement("div");
+    bookNode.setAttribute("book-id", theBook.id);
+    bookNode.classList.add("book");
 
     let titleNode = document.createElement("p");
     titleNode.classList.add("title-line");
-    titleNode.textContent = theBook.title;
     bookNode.appendChild(titleNode);
 
     let authorNode = document.createElement("p");
     authorNode.classList.add("author-line");
-    authorNode.textContent = `by ${theBook.author}`;
     bookNode.appendChild(authorNode);
 
     let pageCountNode = document.createElement("p");
     pageCountNode.classList.add("page-count-line");
-    pageCountNode.textContent = `${theBook.pageCount} pages`;
     bookNode.appendChild(pageCountNode);
 
     let isReadNode = document.createElement("p");
     isReadNode.classList.add("is-read-line");
-    isReadNode.textContent = theBook.isRead ?
-        "You've read it!" : "You have not read this book yet.";
     bookNode.appendChild(isReadNode);
 
     let actionIcons = document.createElement("div");
     actionIcons.classList.add("book-actions");
-    actionIcons.appendChild(this.makeDeleteButton(theBook));
+    actionIcons.appendChild(this._makeToggleReadButton(theBook));
+    actionIcons.appendChild(this._makeDeleteButton(theBook));
     bookNode.appendChild(actionIcons);
+
+    this._refreshBookNode(bookNode);
 
     return bookNode;
 }
 
-LibraryView.makeDeleteButton = function(targetBook) {
+LibraryView._refreshBookNode = function(bookNode) {
+    const bookModel = LibraryController.getBookById(
+        bookNode.getAttribute("book-id"));
+    if (!bookModel) {
+        throw new Error("Book not found for refresh");
+    }
+
+    if (bookModel.isRead) {
+        bookNode.classList.remove("unread");
+        bookNode.classList.add("read");
+    } else {
+        bookNode.classList.remove("read");
+        bookNode.classList.add("unread");
+    }
+
+    const titleNode = bookNode.querySelector(".title-line");
+    titleNode.textContent = bookModel.title;
+
+    const authorNode = bookNode.querySelector(".author-line");
+    authorNode.textContent = `by ${bookModel.author}`;
+
+    const pageCountNode = bookNode.querySelector(".page-count-line");
+    pageCountNode.textContent = `${bookModel.pageCount} pages`;
+
+    const isReadNode = bookNode.querySelector(".is-read-line");
+    isReadNode.textContent = bookModel.isRead ?
+        "You've read it!" : "You have not read this book yet.";
+}
+
+LibraryView._makeToggleReadButton = function(targetBook) {
+    let toggleButton = document.createElement("button");
+    toggleButton.classList.add("toggle-read");
+    toggleButton.setAttribute("book-id", targetBook.id);
+    toggleButton.addEventListener("click", function(event) {
+        console.log("Toggle button clicked!");
+        const bookId = event.target.getAttribute("book-id");
+        if (!bookId) {
+            return; // Can't find book to edit
+        }
+        LibraryController.toggleRead(bookId);
+    })
+    return toggleButton;
+}
+
+LibraryView._makeDeleteButton = function(targetBook) {
     let deleteButton = document.createElement("button");
     deleteButton.classList.add("delete");
     deleteButton.setAttribute("book-id", targetBook.id);
@@ -142,7 +189,7 @@ LibraryView.makeDeleteButton = function(targetBook) {
         const bookId = event.target.getAttribute("book-id");
         const book = LibraryController.getBookById(bookId);
         if (!book) {
-            return; // Can't fint book to delete it
+            return; // Can't find book to delete it
         }
         const confirmed = confirm(
             `${book.info()}
@@ -198,6 +245,12 @@ LibraryController.addBook = function(title, author, pageCount, isRead) {
 LibraryController.removeBook = function(id) {
     myLibrary.removeBook(id);
     LibraryView.populate(myLibrary.books);
+};
+
+LibraryController.toggleRead = function(id) {
+    let book = myLibrary.getBookById(id);
+    book.markRead(!book.isRead);
+    LibraryView.refreshBook(id);
 };
 
 //=============================================================================

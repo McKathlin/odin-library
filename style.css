@@ -138,6 +138,7 @@ header h1 {
     display: flex;
     justify-content: flex-end;
     align-items: bottom;
+    gap: 1rem;
 }
 
 .book-actions button {
@@ -161,6 +162,13 @@ button.delete {
     background-image: url("icon/delete.svg")
 }
 
+button.toggle-read {
+    background-image: url("icon/book-read.svg");
+}
+
+.book.read button.toggle-read {
+    background-image: url("icon/book-unread.svg");
+}
 
 /* New Book Form */
 
