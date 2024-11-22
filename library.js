@@ -89,7 +89,7 @@ LibraryView.populate = function(books) {
         bookListNode.appendChild(listItem);
     }
     bookListNode.appendChild(newBookForm);
-}
+};
 
 LibraryView.makeBookNode = function(theBook) {
     let bookNode = document.createElement("div");
@@ -122,6 +122,42 @@ LibraryView.makeBookNode = function(theBook) {
     bookNode.appendChild(isReadNode);
 
     return bookNode;
+}
+
+//=============================================================================
+// Controls
+//=============================================================================
+
+const newTitleInput = document.getElementById("new-title");
+const newAuthorInput = document.getElementById("new-author");
+const newPageCountInput = document.getElementById("new-page-count");
+const newHaveReadCheckbox = document.getElementById("new-have-read");
+const newBookButton = document.getElementById("add-new-book");
+const requiredNewBookFields = [newTitleInput, newAuthorInput, newPageCountInput];
+
+newBookButton.addEventListener("click", function() {
+    const title = newTitleInput.value;
+    const author = newAuthorInput.value;
+    const numPages = newPageCountInput.value;
+    const isRead = newHaveReadCheckbox.checked;
+    let valid = true;
+    for (const field of requiredNewBookFields) {
+        field.reportValidity();
+        if (!field.validity.valid) {
+            valid = false;
+            break;
+        }
+    }
+    if (valid) {
+        LibraryController.addBook(title, author, numPages, isRead);
+    }
+});
+
+LibraryController = {};
+
+LibraryController.addBook = function(title, author, pageCount, isRead) {
+    myLibrary.addBook(title, author, pageCount, isRead);
+    LibraryView.populate(myLibrary.books);
 }
 
 //=============================================================================
