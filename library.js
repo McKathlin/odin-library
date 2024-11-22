@@ -91,8 +91,18 @@ const newTitleInput = document.getElementById("new-title");
 const newAuthorInput = document.getElementById("new-author");
 const newPageCountInput = document.getElementById("new-page-count");
 const newHaveReadCheckbox = document.getElementById("new-have-read");
-const newBookButton = document.getElementById("add-new-book");
 const requiredNewBookFields = [newTitleInput, newAuthorInput, newPageCountInput];
+
+const newBookButton = document.getElementById("add-new-book");
+const cancelNewBookButton = document.getElementById("cancel-new-book");
+
+showNewFormButton.addEventListener("click", function(event) {
+    LibraryController.showNewBookForm();
+});
+
+newBookButton.addEventListener("click", function(event) {
+    LibraryController.addBookUsingForm();
+});
 
 //=============================================================================
 // LibraryView
@@ -231,14 +241,24 @@ LibraryView._makeDeleteButton = function(targetBook) {
 };
 
 //=============================================================================
-// Controls
+// LibraryController
 //=============================================================================
 
-showNewFormButton.addEventListener("click", function() {
-    LibraryController.showNewBookForm();
-});
+LibraryController = {};
 
-newBookButton.addEventListener("click", function() {
+LibraryController.getBookById = function(id) {
+    return myLibrary.getBookById(id);
+}
+
+LibraryController.showNewBookForm = function() {
+    LibraryView.showNewBookForm();
+};
+
+LibraryController.hideNewBookForm = function() {
+    LibraryView.hideNewBookForm();
+};
+
+LibraryController.addBookUsingForm = function() {
     const title = newTitleInput.value;
     const author = newAuthorInput.value;
     const numPages = newPageCountInput.value;
@@ -254,16 +274,6 @@ newBookButton.addEventListener("click", function() {
     if (valid) {
         LibraryController.addBook(title, author, numPages, isRead);
     }
-});
-
-LibraryController = {};
-
-LibraryController.getBookById = function(id) {
-    return myLibrary.getBookById(id);
-}
-
-LibraryController.showNewBookForm = function() {
-    LibraryView.showNewBookForm();
 };
 
 LibraryController.addBook = function(title, author, pageCount, isRead) {
