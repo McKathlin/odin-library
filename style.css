@@ -50,9 +50,24 @@ body {
 button {
     font-family: var(--utility-font);
     font-weight: bold;
+
     height: 2rem;
-    padding: 0 0.9rem;
+    padding: 0 1rem;
+
+    color: white;
+    background-color: var(--card-border-color);
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 0.3rem;
+
+    opacity: 0.8;
     cursor: pointer;
+}
+
+button:hover {
+    opacity: 1.0;
 }
 
 input {
@@ -141,20 +156,7 @@ header h1 {
     gap: 1rem;
 }
 
-.book-actions button {
-    background-color: var(--card-border-color);
-    border: none;
-    border-radius: 0.3rem;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.75;
-}
-
-.book-actions button:hover {
-    opacity: 1.0;
-}
-
-.book.read .book-actions button {
+.book.read button {
     background-color: var(--read-border-color);
 }
 
@@ -191,9 +193,13 @@ input[type="checkbox"] {
     margin-left: var(--left-margin);
 }
 
-#new-book-form button#add-new-book {
+#new-book-form .button-row {
     margin-top: auto;
     margin-left: var(--left-margin);
+}
+
+#new-book-form button {
+    background-color: var(--new-border-color);
 }
 
 #checkbox-wrapper label {
