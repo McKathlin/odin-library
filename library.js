@@ -121,6 +121,13 @@ LibraryView.makeBookNode = function(theBook) {
         "You've read it!" : "You have not read this book yet.";
     bookNode.appendChild(isReadNode);
 
+    let actionIcons = document.createElement("div");
+    actionIcons.classList.add("book-actions");
+    let deleteButton = document.createElement("button");
+    deleteButton.classList.add("delete");
+    actionIcons.appendChild(deleteButton);
+    bookNode.appendChild(actionIcons);
+
     return bookNode;
 }
 
