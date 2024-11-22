@@ -47,6 +47,8 @@ h1 {
     margin: 1rem;
 }
 
+/* Book list */
+
 #book-list {
     padding: 2rem;
 
@@ -87,4 +89,10 @@ h1 {
 .book.read {
     background-color: var(--read-color);
     border-color: var(--read-border-color);
+}
+
+/* New book form */
+
+#new-book-form {
+    
 }

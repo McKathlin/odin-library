@@ -1,12 +1,69 @@
 //=============================================================================
-// Book class
+// Library class
 //=============================================================================
+
+function Library() {
+    this._bookById = {};
+    this._nextBookId = 1;
+    this._bookCount = 0;
+};
+
+Object.defineProperties(Library.prototype, {
+    books: {
+        get: function() { return Object.values(this._bookById); }
+    }
+});
+
+Library.prototype.getBookById = function(id) {
+    return this._bookById[id];
+};
+
+Library.prototype.addBook = function(title, author, pageCount, haveRead) {
+    let addedBook = new Book(title, author, pageCount, haveRead);
+    addedBook.register(this._nextBookId++);
+    this._bookById[addedBook.id] = addedBook;
+    this._bookCount++;
+};
+
+Library.prototype.removeBook = function(idToRemove) {
+    if (this._bookById[idToRemove]) {
+        delete this._bookById[idToRemove];
+        return true;
+    } else {
+        return false;
+    }
+};
+
+//=============================================================================
+// Library.Book
+//=============================================================================
+
 function Book(title, author, pageCount, haveRead=false) {
     this.title = title;
     this.author = author;
     this.pageCount = pageCount;
     this.isRead = haveRead;
+    this._id = null;
 }
+
+Object.defineProperties(Book.prototype, {
+    id: {
+        get: function() {
+            return this._id;
+        },
+        set: function(value) {
+            if (null === this._id) {
+                this._id = value;
+            } else {
+                throw new Error(`Book already has ID of ${this._id}`);
+            }
+        }
+    }
+});
+
+Book.prototype.register = function(uniqueId) {
+    this.id = uniqueId;
+};
 
 Book.prototype.info = function() {
     let readStatus = this.isRead ? "read" : "not read yet";
@@ -17,26 +74,24 @@ Book.prototype.markRead = function(read=true) {
     this.isRead = read;
 };
 
-const library = [
-    new Book("The Hobbit", "J.R.R. Tolkien", 295, true),
-    new Book("Jokes A to Z", "Joe King", 26, false),
-    new Book("Stories from Danger's Den", "McKathlin", 1000, false)
-];
-
 //=============================================================================
-// Library display
+// LibraryView
 //=============================================================================
 
-const bookListNode = document.getElementById("book-list");
-const newBookForm = document.getElementById("new-book-form");
-bookListNode.replaceChildren();
-for (const currentBook of library) {
-    let listItem = makeBookNode(currentBook);
-    bookListNode.appendChild(listItem);
+LibraryView = {};
+
+LibraryView.populate = function(books) {
+    const bookListNode = document.getElementById("book-list");
+    const newBookForm = document.getElementById("new-book-form");
+    bookListNode.replaceChildren();
+    for (const currentBook of books) {
+        let listItem = this.makeBookNode(currentBook);
+        bookListNode.appendChild(listItem);
+    }
+    bookListNode.appendChild(newBookForm);
 }
-bookListNode.appendChild(newBookForm);
 
-function makeBookNode(theBook) {
+LibraryView.makeBookNode = function(theBook) {
     let bookNode = document.createElement("div");
     bookNode.classList.add("book");
     if (theBook.isRead) {
@@ -68,3 +123,14 @@ function makeBookNode(theBook) {
 
     return bookNode;
 }
+
+//=============================================================================
+// Page setup
+//=============================================================================
+
+let myLibrary = new Library();
+myLibrary.addBook("The Hobbit", "J.R.R. Tolkien", 295, true);
+myLibrary.addBook("Jokes A to Z", "Joe King", 26, false);
+myLibrary.addBook("Stories from Danger's Den", "McKathlin", 1000, false);
+
+LibraryView.populate(myLibrary.books);
