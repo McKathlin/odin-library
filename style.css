@@ -1,3 +1,5 @@
+/* Entire site */
+
 @font-face {
     font-family: Storybook;
     src: url("font/Storybook.ttf");
@@ -26,7 +28,6 @@
     font-size: 14px;
 }
 
-
 @media (prefers-color-scheme: dark) {
     :root {
         --text-color: #d0c8d0;
@@ -45,14 +46,6 @@ body {
     background: var(--back-color);
 }
 
-h1 {
-    font-family: var(--title-font);
-    font-weight: normal;
-    font-size: 3rem;
-    color: var(--bold-text-color);
-    margin: 1rem;
-}
-
 button {
     font-family: var(--utility-font);
     font-weight: bold;
@@ -61,6 +54,38 @@ button {
 
 input {
     font-family: var(--utility-font);
+}
+
+/* Header */
+
+header {
+    color: var(--bold-text-color);
+    border-bottom: 0.3rem solid var(--read-color);
+    border-image: linear-gradient(to right,
+        #884444, #888844, #448844, #448888, #444488, #884488
+    ) 1;
+    background: linear-gradient(
+        110deg,
+        #ffdfdf, #ffffdf, #dfffdf, #dfffff, #dfdfff, #ffdfff
+    );
+    padding: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    header {
+        background: linear-gradient(
+            110deg,
+            #441111, #444411, #114411, #114444, #111144, #441144
+        );
+    }
+}
+
+header h1 {
+    font-family: var(--title-font);
+    font-weight: normal;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    
 }
 
 /* Book cards */
