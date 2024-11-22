@@ -79,14 +79,28 @@ Book.prototype.markRead = function(read=true) {
 };
 
 //=============================================================================
+// Nodes
+//=============================================================================
+
+const bookListNode = document.getElementById("book-list");
+
+const newBookContainer = document.getElementById("new-book-container");
+const showNewFormButton = document.getElementById("show-new-book-form");
+
+const newTitleInput = document.getElementById("new-title");
+const newAuthorInput = document.getElementById("new-author");
+const newPageCountInput = document.getElementById("new-page-count");
+const newHaveReadCheckbox = document.getElementById("new-have-read");
+const newBookButton = document.getElementById("add-new-book");
+const requiredNewBookFields = [newTitleInput, newAuthorInput, newPageCountInput];
+
+//=============================================================================
 // LibraryView
 //=============================================================================
 
 LibraryView = {};
 
 LibraryView.populate = function(books) {
-    const bookListNode = document.getElementById("book-list");
-    const newBookContainer = document.getElementById("new-book-container");
     bookListNode.replaceChildren();
     for (const currentBook of books) {
         let listItem = this._makeBookNode(currentBook);
@@ -96,7 +110,6 @@ LibraryView.populate = function(books) {
 };
 
 LibraryView.refreshBook = function(bookId) {
-    const bookListNode = document.getElementById("book-list");
     const bookNode = bookListNode.querySelector(`.book[book-id="${bookId}"]`);
     if (!bookNode) {
         return;
@@ -104,13 +117,19 @@ LibraryView.refreshBook = function(bookId) {
     this._refreshBookNode(bookNode);
 }
 
-LibraryView.setAddMode = function(isActive) {
-    const newBookContainer = document.getElementById("new-book-container");
-    if (isActive) {
-        newBookContainer.classList.add("add-mode");
-    } else {
-        newBookContainer.classList.remove("add-mode");
-    }
+LibraryView.showNewBookForm = function() {
+    newBookContainer.classList.add("add-mode");
+};
+
+LibraryView.hideNewBookForm = function() {
+    // Hide the form
+    newBookContainer.classList.remove("add-mode");
+
+    // Clear the inputs
+    newTitleInput.value = "";
+    newAuthorInput.value = "";
+    newPageCountInput.value = "";
+    newHaveReadCheckbox.checked = false;
 };
 
 LibraryView._makeBookNode = function(theBook) {
@@ -215,18 +234,9 @@ LibraryView._makeDeleteButton = function(targetBook) {
 // Controls
 //=============================================================================
 
-const showNewFormButton = document.getElementById("show-new-book-form");
-
 showNewFormButton.addEventListener("click", function() {
     LibraryController.showNewBookForm();
 });
-
-const newTitleInput = document.getElementById("new-title");
-const newAuthorInput = document.getElementById("new-author");
-const newPageCountInput = document.getElementById("new-page-count");
-const newHaveReadCheckbox = document.getElementById("new-have-read");
-const newBookButton = document.getElementById("add-new-book");
-const requiredNewBookFields = [newTitleInput, newAuthorInput, newPageCountInput];
 
 newBookButton.addEventListener("click", function() {
     const title = newTitleInput.value;
@@ -253,12 +263,13 @@ LibraryController.getBookById = function(id) {
 }
 
 LibraryController.showNewBookForm = function() {
-    LibraryView.setAddMode(true);
+    LibraryView.showNewBookForm();
 };
 
 LibraryController.addBook = function(title, author, pageCount, isRead) {
     myLibrary.addBook(title, author, pageCount, isRead);
     LibraryView.populate(myLibrary.books);
+    LibraryView.hideNewBookForm();
 };
 
 LibraryController.removeBook = function(id) {
