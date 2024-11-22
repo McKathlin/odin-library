@@ -88,7 +88,6 @@ header h1 {
     font-weight: normal;
     font-size: 3rem;
     margin-bottom: 1rem;
-    
 }
 
 /* Book cards */
@@ -147,6 +146,11 @@ header h1 {
     border-radius: 0.3rem;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0.75;
+}
+
+.book-actions button:hover {
+    opacity: 1.0;
 }
 
 .book.read .book-actions button {
