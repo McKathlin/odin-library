@@ -8,27 +8,34 @@
     <script defer src="library.js"></script>
 </head>
 <body>
-    <h1>My Library</h1>
-    <div id="book-list">
-        <form id="new-book-form">
-            <p>
-                <label for="new-title">Title:</label>
-                <input id="new-title" type="text" required>
-            </p>
-            <p>
-                <label for="new-author">Author:</label>
-                <input id="new-author" type="text" required>
-            </p>
-            <p>
-                <label for="new-page-count">Pages:</label>
-                <input id="new-page-count" type="number" min="1" required>
-            </p>
-            <p id="checkbox-wrapper">
-                <input id="new-have-read" type="checkbox">
-                <label for="new-have-read">I've read this book</label>
-            </p>
-            <button type="button" id="add-new-book">Add Book</button>
-        </form>
-    </div>
+    <header>
+        <h1>My Library</h1>
+        <p id="disclaimer">
+            This app is a demo. Book entries do not persist after page refresh.
+        </p>
+    </header>
+    <main>
+        <div id="book-list">
+            <form id="new-book-form">
+                <p>
+                    <label for="new-title">Title:</label>
+                    <input id="new-title" type="text" required>
+                </p>
+                <p>
+                    <label for="new-author">Author:</label>
+                    <input id="new-author" type="text" required>
+                </p>
+                <p>
+                    <label for="new-page-count">Pages:</label>
+                    <input id="new-page-count" type="number" min="1" required>
+                </p>
+                <p id="checkbox-wrapper">
+                    <input id="new-have-read" type="checkbox">
+                    <label for="new-have-read">I've read this book</label>
+                </p>
+                <button type="button" id="add-new-book">Add Book</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
