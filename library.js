@@ -104,6 +104,15 @@ LibraryView.refreshBook = function(bookId) {
     this._refreshBookNode(bookNode);
 }
 
+LibraryView.setAddMode = function(isActive) {
+    const newBookContainer = document.getElementById("new-book-container");
+    if (isActive) {
+        newBookContainer.classList.add("add-mode");
+    } else {
+        newBookContainer.classList.remove("add-mode");
+    }
+};
+
 LibraryView._makeBookNode = function(theBook) {
     let bookNode = document.createElement("div");
     bookNode.setAttribute("book-id", theBook.id);
@@ -206,6 +215,12 @@ LibraryView._makeDeleteButton = function(targetBook) {
 // Controls
 //=============================================================================
 
+const showNewFormButton = document.getElementById("show-new-book-form");
+
+showNewFormButton.addEventListener("click", function() {
+    LibraryController.showNewBookForm();
+});
+
 const newTitleInput = document.getElementById("new-title");
 const newAuthorInput = document.getElementById("new-author");
 const newPageCountInput = document.getElementById("new-page-count");
@@ -236,6 +251,10 @@ LibraryController = {};
 LibraryController.getBookById = function(id) {
     return myLibrary.getBookById(id);
 }
+
+LibraryController.showNewBookForm = function() {
+    LibraryView.setAddMode(true);
+};
 
 LibraryController.addBook = function(title, author, pageCount, isRead) {
     myLibrary.addBook(title, author, pageCount, isRead);
