@@ -22,6 +22,12 @@
     --read-border-color: #94331a;
     --new-border-color: #2f6440;
 
+    --background-rainbow: linear-gradient(110deg,
+        #ffdfdf, #ffffdf, #dfffdf, #dfffff, #dfdfff, #ffdfff
+    );
+    --border-rainbow: linear-gradient(to right,
+        #884444, #888844, #448844, #448888, #444488, #884488);
+
     --title-font: Storybook, Georgia, 'Times New Roman', Times, serif;
     --book-font: Georgia, 'Times New Roman', Times, serif;
     --utility-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, sans-serif;
@@ -37,6 +43,10 @@
         --card-color: #1b2028;
         --read-color: #301410;
         --new-color: #103014;
+
+        --background-rainbow: linear-gradient(110deg,
+            #441111, #444411, #114411, #114444, #111144, #441144
+        );
     }
 }
 
@@ -45,6 +55,14 @@ body {
     text-align: center;
     color: var(--text-color);
     background: var(--back-color);
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 button {
@@ -79,23 +97,9 @@ input {
 header {
     color: var(--bold-text-color);
     border-bottom: 0.3rem solid var(--read-color);
-    border-image: linear-gradient(to right,
-        #884444, #888844, #448844, #448888, #444488, #884488
-    ) 1;
-    background: linear-gradient(
-        110deg,
-        #ffdfdf, #ffffdf, #dfffdf, #dfffff, #dfdfff, #ffdfff
-    );
+    border-image: var(--border-rainbow) 1;
+    background: var(--background-rainbow);
     padding: 1rem;
-}
-
-@media (prefers-color-scheme: dark) {
-    header {
-        background: linear-gradient(
-            110deg,
-            #441111, #444411, #114411, #114444, #111144, #441144
-        );
-    }
 }
 
 header h1 {
@@ -267,4 +271,22 @@ button#cancel-new-book {
 #new-book-form input[type="number"] {
     width: 14rem;
     line-height: 1.4rem;
+}
+
+/* Footer */
+
+footer {
+    color: var(--bold-text-color);
+    border-top: 0.3rem solid var(--read-color);
+    border-image: var(--border-rainbow) 1;
+    background: var(--background-rainbow);
+}
+
+footer p {
+    font-weight: normal;
+    padding: 0.5rem;
+}
+
+footer a {
+    color: var(--bold-text-color);
 }
