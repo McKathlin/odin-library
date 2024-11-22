@@ -104,6 +104,10 @@ newBookButton.addEventListener("click", function(event) {
     LibraryController.addBookUsingForm();
 });
 
+cancelNewBookButton.addEventListener("click", function(event) {
+    LibraryController.hideNewBookForm();
+})
+
 //=============================================================================
 // LibraryView
 //=============================================================================
