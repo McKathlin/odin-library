@@ -15,8 +15,10 @@
     --back-color: #ffffff;
     --card-color: #e0e4e8;
     --read-color: #ffdfdf;
+    --new-color: #e0f5e8;
     --card-border-color: #445566;
     --read-border-color: #94331a;
+    --new-border-color: #447755;
 
     font-size: 14px;
 }
@@ -29,6 +31,7 @@
         --back-color: #000000;
         --card-color: #1b2028;
         --read-color: #301410;
+        --new-color: #103014;
     }
 }
 
@@ -47,7 +50,7 @@ h1 {
     margin: 1rem;
 }
 
-/* Book list */
+/* Book cards */
 
 #book-list {
     padding: 2rem;
@@ -58,7 +61,7 @@ h1 {
     gap: 1rem;
 }
 
-.book {
+.book, #new-book-form {
     text-align: center;
     background-color: var(--card-color);
     border: 0.2rem solid var(--card-border-color);
@@ -91,8 +94,7 @@ h1 {
     border-color: var(--read-border-color);
 }
 
-/* New book form */
-
 #new-book-form {
-    
+    background-color: var(--new-color);
+    border-color: var(--new-border-color);
 }
