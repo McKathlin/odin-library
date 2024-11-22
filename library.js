@@ -28,11 +28,13 @@ const library = [
 //=============================================================================
 
 const bookListNode = document.getElementById("book-list");
+const newBookForm = document.getElementById("new-book-form");
 bookListNode.replaceChildren();
 for (const currentBook of library) {
     let listItem = makeBookNode(currentBook);
     bookListNode.appendChild(listItem);
 }
+bookListNode.appendChild(newBookForm);
 
 function makeBookNode(theBook) {
     let bookNode = document.createElement("div");
