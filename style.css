@@ -56,6 +56,13 @@ body {
     color: var(--text-color);
     background: var(--back-color);
     min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
 }
 
 button {
@@ -264,4 +271,22 @@ button#cancel-new-book {
 #new-book-form input[type="number"] {
     width: 14rem;
     line-height: 1.4rem;
+}
+
+/* Footer */
+
+footer {
+    color: var(--bold-text-color);
+    border-top: 0.3rem solid var(--read-color);
+    border-image: var(--border-rainbow) 1;
+    background: var(--background-rainbow);
+}
+
+footer p {
+    font-weight: normal;
+    padding: 0.5rem;
+}
+
+footer a {
+    color: var(--bold-text-color);
 }
