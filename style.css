@@ -116,7 +116,7 @@ header h1 {
     gap: 1rem;
 }
 
-.book, #new-book-form {
+.book {
     text-align: center;
     background-color: var(--card-color);
     border: 0.2rem solid var(--card-border-color);
@@ -174,12 +174,61 @@ button.toggle-read {
 
 /* New Book Form */
 
+#new-book-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#new-book-container.add-mode {
+    text-align: center;
+    background-color: var(--new-color);
+    border: 0.2rem solid var(--new-border-color);
+    border-radius: 0.4rem;
+    padding: 1rem;
+    padding-top: 1.5rem;
+}
+
+button#show-new-book-form {
+    height: 7rem;
+    width: 8rem;
+    color: var(--text-color);
+    background-color: transparent;
+    border: 2px dashed var(--text-color);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button#show-new-book-form:hover {
+    background-color: var(--new-color);
+}
+
+button#show-new-book-form h2 {
+    font-size: 3rem;
+}
+
+#new-book-container.add-mode button#show-new-book-form {
+    display: none;
+}
+
 #new-book-form {
+    display: none;
+}
+
+#new-book-container.add-mode #new-book-form {
     --left-margin: 5rem;
 
+    max-width: 20rem;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: start;
-    background-color: var(--new-color);
-    border-color: var(--new-border-color);
+    gap: 0.5rem;
 }
 
 #new-book-form label {
@@ -196,10 +245,18 @@ input[type="checkbox"] {
 #new-book-form .button-row {
     margin-top: auto;
     margin-left: var(--left-margin);
+
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
 }
 
 #new-book-form button {
     background-color: var(--new-border-color);
+}
+
+button#cancel-new-book {
+    font-weight: normal;
 }
 
 #checkbox-wrapper label {

@@ -16,27 +16,34 @@
     </header>
     <main>
         <div id="book-list">
-            <form id="new-book-form">
-                <p>
-                    <label for="new-title">Title:</label>
-                    <input id="new-title" type="text" required>
-                </p>
-                <p>
-                    <label for="new-author">Author:</label>
-                    <input id="new-author" type="text" required>
-                </p>
-                <p>
-                    <label for="new-page-count">Pages:</label>
-                    <input id="new-page-count" type="number" min="1" required>
-                </p>
-                <p id="checkbox-wrapper">
-                    <input id="new-have-read" type="checkbox">
-                    <label for="new-have-read">I've read this book</label>
-                </p>
-                <p class="button-row">
-                    <button type="button" id="add-new-book">Add Book</button>
-                </p>
-            </form>
+            <div id="new-book-container">
+                <button id="show-new-book-form">
+                    <p>Add Book</p>
+                    <h2>&plus;</h2>
+                </button>
+                <form id="new-book-form">
+                    <p>
+                        <label for="new-title">Title:</label>
+                        <input id="new-title" type="text" required>
+                    </p>
+                    <p>
+                        <label for="new-author">Author:</label>
+                        <input id="new-author" type="text" required>
+                    </p>
+                    <p>
+                        <label for="new-page-count">Pages:</label>
+                        <input id="new-page-count" type="number" min="1" required>
+                    </p>
+                    <p id="checkbox-wrapper">
+                        <input id="new-have-read" type="checkbox">
+                        <label for="new-have-read">I've read this book</label>
+                    </p>
+                    <p class="button-row">
+                        <button type="button" id="add-new-book">Add Book</button>
+                        <button type="button" id="cancel-new-book">Cancel</button>
+                    </p>
+                </form>
+            </div>
         </div>
     </main>
 </body>
