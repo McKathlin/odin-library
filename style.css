@@ -15,9 +15,14 @@
     --back-color: #ffffff;
     --card-color: #e0e4e8;
     --read-color: #ffdfdf;
+    --new-color: #e0f5e8;
     --card-border-color: #445566;
     --read-border-color: #94331a;
+    --new-border-color: #447755;
 
+    --title-font: Storybook, Georgia, 'Times New Roman', Times, serif;
+    --book-font: Georgia, 'Times New Roman', Times, serif;
+    --utility-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, sans-serif;
     font-size: 14px;
 }
 
@@ -29,34 +34,47 @@
         --back-color: #000000;
         --card-color: #1b2028;
         --read-color: #301410;
+        --new-color: #103014;
     }
 }
 
 body {
-    font-family: sans-serif;
+    font-family: var(--utility-font);
     text-align: center;
     color: var(--text-color);
     background: var(--back-color);
 }
 
 h1 {
-    font-family: Storybook, Georgia, 'Times New Roman', Times, serif;
+    font-family: var(--title-font);
     font-weight: normal;
     font-size: 3rem;
     color: var(--bold-text-color);
     margin: 1rem;
 }
 
+button {
+    font-family: var(--utility-font);
+    font-weight: bold;
+    padding: 0.2rem 1rem;
+}
+
+input {
+    font-family: var(--utility-font);
+}
+
+/* Book cards */
+
 #book-list {
     padding: 2rem;
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
     grid-auto-rows: 14rem;
     gap: 1rem;
 }
 
-.book {
+.book, #new-book-form {
     text-align: center;
     background-color: var(--card-color);
     border: 0.2rem solid var(--card-border-color);
@@ -70,7 +88,7 @@ h1 {
 }
 
 .book .title-line, .book .author-line {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: var(--book-font);
     color: var(--bold-text-color);
 }
 
@@ -87,4 +105,40 @@ h1 {
 .book.read {
     background-color: var(--read-color);
     border-color: var(--read-border-color);
+}
+
+/* New Book Form */
+
+#new-book-form {
+    --left-margin: 5rem;
+
+    align-items: start;
+    background-color: var(--new-color);
+    border-color: var(--new-border-color);
+}
+
+#new-book-form label {
+    display: inline-block;
+    width: calc(var(--left-margin) - 0.8rem);
+    margin-right: 0.5rem;
+    text-align: right;
+}
+
+input[type="checkbox"] {
+    margin-left: var(--left-margin);
+}
+
+#new-book-form button#add-new-book {
+    margin-top: auto;
+    margin-left: var(--left-margin);
+}
+
+#checkbox-wrapper label {
+    width: unset;
+}
+
+#new-book-form input[type="text"],
+#new-book-form input[type="number"] {
+    width: 14rem;
+    line-height: 1.4rem;
 }

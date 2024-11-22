@@ -10,7 +10,25 @@
 <body>
     <h1>My Library</h1>
     <div id="book-list">
-        <p>Loading your library...</p>
+        <form id="new-book-form">
+            <p>
+                <label for="new-title">Title:</label>
+                <input id="new-title" type="text" required>
+            </p>
+            <p>
+                <label for="new-author">Author:</label>
+                <input id="new-author" type="text" required>
+            </p>
+            <p>
+                <label for="new-page-count">Pages:</label>
+                <input id="new-page-count" type="number" min="1" required>
+            </p>
+            <p id="checkbox-wrapper">
+                <input id="new-have-read" type="checkbox">
+                <label for="new-have-read">I've read this book</label>
+            </p>
+            <button type="button" id="add-new-book">Add Book</button>
+        </form>
     </div>
 </body>
 </html>
