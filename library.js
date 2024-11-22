@@ -86,13 +86,13 @@ LibraryView = {};
 
 LibraryView.populate = function(books) {
     const bookListNode = document.getElementById("book-list");
-    const newBookForm = document.getElementById("new-book-form");
+    const newBookContainer = document.getElementById("new-book-container");
     bookListNode.replaceChildren();
     for (const currentBook of books) {
         let listItem = this._makeBookNode(currentBook);
         bookListNode.appendChild(listItem);
     }
-    bookListNode.appendChild(newBookForm);
+    bookListNode.appendChild(newBookContainer);
 };
 
 LibraryView.refreshBook = function(bookId) {
