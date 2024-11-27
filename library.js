@@ -111,137 +111,145 @@ cancelNewBookButton.addEventListener("click", function(event) {
 // LibraryView
 //=============================================================================
 
-LibraryView = {};
-
-LibraryView.populate = function(books) {
-    bookListNode.replaceChildren();
-    for (const currentBook of books) {
-        let listItem = this._makeBookNode(currentBook);
-        bookListNode.appendChild(listItem);
-    }
-    bookListNode.appendChild(newBookContainer);
-};
-
-LibraryView.refreshBook = function(bookId) {
-    const bookNode = bookListNode.querySelector(`.book[book-id="${bookId}"]`);
-    if (!bookNode) {
-        return;
-    }
-    this._refreshBookNode(bookNode);
-}
-
-LibraryView.showNewBookForm = function() {
-    newBookContainer.classList.add("add-mode");
-};
-
-LibraryView.hideNewBookForm = function() {
-    // Hide the form
-    newBookContainer.classList.remove("add-mode");
-
-    // Clear the inputs
-    newTitleInput.value = "";
-    newAuthorInput.value = "";
-    newPageCountInput.value = "";
-    newHaveReadCheckbox.checked = false;
-};
-
-LibraryView._makeBookNode = function(theBook) {
-    let bookNode = document.createElement("div");
-    bookNode.setAttribute("book-id", theBook.id);
-    bookNode.classList.add("book");
-
-    let titleNode = document.createElement("p");
-    titleNode.classList.add("title-line");
-    bookNode.appendChild(titleNode);
-
-    let authorNode = document.createElement("p");
-    authorNode.classList.add("author-line");
-    bookNode.appendChild(authorNode);
-
-    let pageCountNode = document.createElement("p");
-    pageCountNode.classList.add("page-count-line");
-    bookNode.appendChild(pageCountNode);
-
-    let isReadNode = document.createElement("p");
-    isReadNode.classList.add("is-read-line");
-    bookNode.appendChild(isReadNode);
-
-    let actionIcons = document.createElement("div");
-    actionIcons.classList.add("book-actions");
-    actionIcons.appendChild(this._makeToggleReadButton(theBook));
-    actionIcons.appendChild(this._makeDeleteButton(theBook));
-    bookNode.appendChild(actionIcons);
-
-    this._refreshBookNode(bookNode);
-
-    return bookNode;
-}
-
-LibraryView._refreshBookNode = function(bookNode) {
-    const bookModel = LibraryController.getBookById(
-        bookNode.getAttribute("book-id"));
-    if (!bookModel) {
-        throw new Error("Book not found for refresh");
-    }
-
-    if (bookModel.isRead) {
-        bookNode.classList.remove("unread");
-        bookNode.classList.add("read");
-    } else {
-        bookNode.classList.remove("read");
-        bookNode.classList.add("unread");
-    }
-
-    const titleNode = bookNode.querySelector(".title-line");
-    titleNode.textContent = bookModel.title;
-
-    const authorNode = bookNode.querySelector(".author-line");
-    authorNode.textContent = `by ${bookModel.author}`;
-
-    const pageCountNode = bookNode.querySelector(".page-count-line");
-    pageCountNode.textContent = `${bookModel.pageCount} pages`;
-
-    const isReadNode = bookNode.querySelector(".is-read-line");
-    isReadNode.textContent = bookModel.isRead ?
-        "You've read it!" : "You have not read this book yet.";
-}
-
-LibraryView._makeToggleReadButton = function(targetBook) {
-    let toggleButton = document.createElement("button");
-    toggleButton.classList.add("toggle-read");
-    toggleButton.setAttribute("book-id", targetBook.id);
-    toggleButton.addEventListener("click", function(event) {
-        console.log("Toggle button clicked!");
-        const bookId = event.target.getAttribute("book-id");
-        if (!bookId) {
-            return; // Can't find book to edit
+LibraryView = (function() {
+    
+    const populate = function(books) {
+        bookListNode.replaceChildren();
+        for (const currentBook of books) {
+            let listItem = _makeBookNode(currentBook);
+            bookListNode.appendChild(listItem);
         }
-        LibraryController.toggleRead(bookId);
-    })
-    return toggleButton;
-}
+        bookListNode.appendChild(newBookContainer);
+    };
 
-LibraryView._makeDeleteButton = function(targetBook) {
-    let deleteButton = document.createElement("button");
-    deleteButton.classList.add("delete");
-    deleteButton.setAttribute("book-id", targetBook.id);
-    deleteButton.addEventListener("click", function(event) {
-        console.log("Delete button clicked!");
-        const bookId = event.target.getAttribute("book-id");
-        const book = LibraryController.getBookById(bookId);
-        if (!book) {
-            return; // Can't find book to delete it
+    const refreshBook = function(bookId) {
+        const bookNode = bookListNode.querySelector(`.book[book-id="${bookId}"]`);
+        if (!bookNode) {
+            return;
         }
-        const confirmed = confirm(
-            `${book.info()}
-            Do you really want to delete this book?`
-        );
-        if (confirmed) {
-            LibraryController.removeBook(book.id);
+        _refreshBookNode(bookNode);
+    };
+
+    const showNewBookForm = function() {
+        newBookContainer.classList.add("add-mode");
+    };
+
+    const hideNewBookForm = function() {
+        // Hide the form
+        newBookContainer.classList.remove("add-mode");
+    
+        // Clear the inputs
+        newTitleInput.value = "";
+        newAuthorInput.value = "";
+        newPageCountInput.value = "";
+        newHaveReadCheckbox.checked = false;
+    };
+
+    const _makeBookNode = function(theBook) {
+        let bookNode = document.createElement("div");
+        bookNode.setAttribute("book-id", theBook.id);
+        bookNode.classList.add("book");
+    
+        let titleNode = document.createElement("p");
+        titleNode.classList.add("title-line");
+        bookNode.appendChild(titleNode);
+    
+        let authorNode = document.createElement("p");
+        authorNode.classList.add("author-line");
+        bookNode.appendChild(authorNode);
+    
+        let pageCountNode = document.createElement("p");
+        pageCountNode.classList.add("page-count-line");
+        bookNode.appendChild(pageCountNode);
+    
+        let isReadNode = document.createElement("p");
+        isReadNode.classList.add("is-read-line");
+        bookNode.appendChild(isReadNode);
+    
+        let actionIcons = document.createElement("div");
+        actionIcons.classList.add("book-actions");
+        actionIcons.appendChild(_makeToggleReadButton(theBook));
+        actionIcons.appendChild(_makeDeleteButton(theBook));
+        bookNode.appendChild(actionIcons);
+    
+        _refreshBookNode(bookNode);
+    
+        return bookNode;
+    };
+
+    const _refreshBookNode = function(bookNode) {
+        const bookModel = LibraryController.getBookById(
+            bookNode.getAttribute("book-id"));
+        if (!bookModel) {
+            throw new Error("Book not found for refresh");
         }
-    });
-    return deleteButton;
-};
+    
+        if (bookModel.isRead) {
+            bookNode.classList.remove("unread");
+            bookNode.classList.add("read");
+        } else {
+            bookNode.classList.remove("read");
+            bookNode.classList.add("unread");
+        }
+    
+        const titleNode = bookNode.querySelector(".title-line");
+        titleNode.textContent = bookModel.title;
+    
+        const authorNode = bookNode.querySelector(".author-line");
+        authorNode.textContent = `by ${bookModel.author}`;
+    
+        const pageCountNode = bookNode.querySelector(".page-count-line");
+        pageCountNode.textContent = `${bookModel.pageCount} pages`;
+    
+        const isReadNode = bookNode.querySelector(".is-read-line");
+        isReadNode.textContent = bookModel.isRead ?
+            "You've read it!" : "You have not read this book yet.";
+    };
+
+    const _makeToggleReadButton = function(targetBook) {
+        let toggleButton = document.createElement("button");
+        toggleButton.classList.add("toggle-read");
+        toggleButton.setAttribute("book-id", targetBook.id);
+        toggleButton.addEventListener("click", function(event) {
+            console.log("Toggle button clicked!");
+            const bookId = event.target.getAttribute("book-id");
+            if (!bookId) {
+                return; // Can't find book to edit
+            }
+            LibraryController.toggleRead(bookId);
+        })
+        return toggleButton;
+    };
+
+    const _makeDeleteButton = function(targetBook) {
+        let deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete");
+        deleteButton.setAttribute("book-id", targetBook.id);
+        deleteButton.addEventListener("click", function(event) {
+            console.log("Delete button clicked!");
+            const bookId = event.target.getAttribute("book-id");
+            const book = LibraryController.getBookById(bookId);
+            if (!book) {
+                return; // Can't find book to delete it
+            }
+            const confirmed = confirm(
+                `${book.info()}
+                Do you really want to delete this book?`
+            );
+            if (confirmed) {
+                LibraryController.removeBook(book.id);
+            }
+        });
+        return deleteButton;
+    };
+
+    return {
+        populate,
+        refreshBook,
+        showNewBookForm,
+        hideNewBookForm
+    };
+})();
 
 //=============================================================================
 // LibraryController
