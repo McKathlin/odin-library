@@ -42,41 +42,40 @@ Library.prototype.removeBook = function(idToRemove) {
 // Library.Book
 //=============================================================================
 
-function Book(title, author, pageCount, haveRead=false) {
-    this.title = title;
-    this.author = author;
-    this.pageCount = pageCount;
-    this.isRead = haveRead;
-    this._id = null;
-}
+class Book {
+    constructor(title, author, pageCount, haveRead=false) {
+        this.title = title;
+        this.author = author;
+        this.pageCount = pageCount;
+        this.isRead = haveRead;
+        this._id = null;
+    }
 
-Object.defineProperties(Book.prototype, {
-    id: {
-        get: function() {
-            return this._id;
-        },
-        set: function(value) {
-            if (null === this._id) {
-                this._id = value;
-            } else {
-                throw new Error(`Book already has ID of ${this._id}`);
-            }
+    get id() {
+        return this._id;
+    }
+
+    set id(value) {
+        if (null === this._id) {
+            this._id = value;
+        } else {
+            throw new Error(`Book already has ID of ${this._id}`);
         }
     }
-});
 
-Book.prototype.register = function(uniqueId) {
-    this.id = uniqueId;
-};
+    register(uniqueId) {
+        this.id = uniqueId;
+    }
 
-Book.prototype.info = function() {
-    let readStatus = this.isRead ? "read" : "not read yet";
-    return `${this.title} by ${this.author}, ${this.pageCount} pages, ${readStatus}`;
-};
+    info() {
+        let readStatus = this.isRead ? "read" : "not read yet";
+        return `${this.title} by ${this.author}, ${this.pageCount} pages, ${readStatus}`;
+    }
 
-Book.prototype.markRead = function(read=true) {
-    this.isRead = read;
-};
+    markRead(read=true) {
+        this.isRead = read;
+    }
+}
 
 //=============================================================================
 // Nodes
