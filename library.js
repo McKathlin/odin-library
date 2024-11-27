@@ -112,7 +112,7 @@ cancelNewBookButton.addEventListener("click", function(event) {
 //=============================================================================
 
 LibraryView = (function() {
-    
+
     const populate = function(books) {
         bookListNode.replaceChildren();
         for (const currentBook of books) {
@@ -255,54 +255,66 @@ LibraryView = (function() {
 // LibraryController
 //=============================================================================
 
-LibraryController = {};
+LibraryController = (function() {
 
-LibraryController.getBookById = function(id) {
-    return myLibrary.getBookById(id);
-}
+    const getBookById = function(id) {
+        return myLibrary.getBookById(id);
+    };
 
-LibraryController.showNewBookForm = function() {
-    LibraryView.showNewBookForm();
-};
+    const showNewBookForm = function() {
+        LibraryView.showNewBookForm();
+    };
 
-LibraryController.hideNewBookForm = function() {
-    LibraryView.hideNewBookForm();
-};
+    const hideNewBookForm = function() {
+        LibraryView.hideNewBookForm();
+    };
 
-LibraryController.addBookUsingForm = function() {
-    const title = newTitleInput.value;
-    const author = newAuthorInput.value;
-    const numPages = newPageCountInput.value;
-    const isRead = newHaveReadCheckbox.checked;
-    let valid = true;
-    for (const field of requiredNewBookFields) {
-        field.reportValidity();
-        if (!field.validity.valid) {
-            valid = false;
-            break;
+    const addBookUsingForm = function() {
+        const title = newTitleInput.value;
+        const author = newAuthorInput.value;
+        const numPages = newPageCountInput.value;
+        const isRead = newHaveReadCheckbox.checked;
+        let valid = true;
+        for (const field of requiredNewBookFields) {
+            field.reportValidity();
+            if (!field.validity.valid) {
+                valid = false;
+                break;
+            }
         }
-    }
-    if (valid) {
-        LibraryController.addBook(title, author, numPages, isRead);
-    }
-};
+        if (valid) {
+            addBook(title, author, numPages, isRead);
+        }
+    };
 
-LibraryController.addBook = function(title, author, pageCount, isRead) {
-    myLibrary.addBook(title, author, pageCount, isRead);
-    LibraryView.populate(myLibrary.books);
-    LibraryView.hideNewBookForm();
-};
+    const addBook = function(title, author, pageCount, isRead) {
+        myLibrary.addBook(title, author, pageCount, isRead);
+        LibraryView.populate(myLibrary.books);
+        LibraryView.hideNewBookForm();
+    };
 
-LibraryController.removeBook = function(id) {
-    myLibrary.removeBook(id);
-    LibraryView.populate(myLibrary.books);
-};
+    const removeBook = function(id) {
+        myLibrary.removeBook(id);
+        LibraryView.populate(myLibrary.books);
+    };
+    
+    const toggleRead = function(id) {
+        let book = myLibrary.getBookById(id);
+        book.markRead(!book.isRead);
+        LibraryView.refreshBook(id);
+    };
 
-LibraryController.toggleRead = function(id) {
-    let book = myLibrary.getBookById(id);
-    book.markRead(!book.isRead);
-    LibraryView.refreshBook(id);
-};
+    return {
+        getBookById,
+        showNewBookForm,
+        hideNewBookForm,
+        addBookUsingForm,
+        addBook,
+        removeBook,
+        toggleRead
+    };
+})();
+
 
 //=============================================================================
 // Page setup
