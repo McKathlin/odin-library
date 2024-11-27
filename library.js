@@ -2,41 +2,41 @@
 // Library class
 //=============================================================================
 
-function Library() {
-    this._bookById = {};
-    this._nextBookId = 1;
-    this._bookCount = 0;
-};
-
-Object.defineProperties(Library.prototype, {
-    books: {
-        get: function() { return Object.values(this._bookById); }
+class Library {
+    constructor() {
+        this._bookById = {};
+        this._nextBookId = 1;
+        this._bookCount = 0;
     }
-});
 
-Library.prototype.getBookById = function(id) {
-    if (id in this._bookById) {
-        return this._bookById[id];
-    } else {
-        return null;
+    get books() {
+        return Object.values(this._bookById);
     }
-};
 
-Library.prototype.addBook = function(title, author, pageCount, haveRead) {
-    let addedBook = new Book(title, author, pageCount, haveRead);
-    addedBook.register(this._nextBookId++);
-    this._bookById[addedBook.id] = addedBook;
-    this._bookCount++;
-};
-
-Library.prototype.removeBook = function(idToRemove) {
-    if (this._bookById[idToRemove]) {
-        delete this._bookById[idToRemove];
-        return true;
-    } else {
-        return false;
+    getBookById(id) {
+        if (id in this._bookById) {
+            return this._bookById[id];
+        } else {
+            return null;
+        }
     }
-};
+
+    addBook(title, author, pageCount, haveRead) {
+        let addedBook = new Book(title, author, pageCount, haveRead);
+        addedBook.register(this._nextBookId++);
+        this._bookById[addedBook.id] = addedBook;
+        this._bookCount++;
+    }
+
+    removeBook(idToRemove) {
+        if (idToRemove in this._bookById) {
+            delete this._bookById[idToRemove];
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 
 //=============================================================================
 // Library.Book
