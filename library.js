@@ -86,6 +86,7 @@ const bookListNode = document.getElementById("book-list");
 const newBookContainer = document.getElementById("new-book-container");
 const showNewFormButton = document.getElementById("show-new-book-form");
 
+const newBookForm = document.getElementById("new-book-form");
 const newTitleInput = document.getElementById("new-title");
 const newAuthorInput = document.getElementById("new-author");
 const newPageCountInput = document.getElementById("new-page-count");
@@ -95,17 +96,27 @@ const requiredNewBookFields = [newTitleInput, newAuthorInput, newPageCountInput]
 const newBookButton = document.getElementById("add-new-book");
 const cancelNewBookButton = document.getElementById("cancel-new-book");
 
-showNewFormButton.addEventListener("click", function(event) {
+showNewFormButton.addEventListener("click", function() {
     LibraryController.showNewBookForm();
 });
 
-newBookButton.addEventListener("click", function(event) {
+newBookButton.addEventListener("click", function() {
     LibraryController.addBookUsingForm();
 });
 
-cancelNewBookButton.addEventListener("click", function(event) {
+cancelNewBookButton.addEventListener("click", function() {
     LibraryController.hideNewBookForm();
 })
+
+for (const field of requiredNewBookFields) {
+    silenceCustomValidation(field, "input");
+}
+
+function silenceCustomValidation(field, eventType) {
+    field.addEventListener(eventType, function() {
+        field.setCustomValidity("");
+    });
+}
 
 //=============================================================================
 // LibraryView
@@ -270,21 +281,15 @@ LibraryController = (function() {
     };
 
     const addBookUsingForm = function() {
+        if (!_validateNewBookForm()) {
+            return false;
+        }
         const title = newTitleInput.value;
         const author = newAuthorInput.value;
         const numPages = newPageCountInput.value;
         const isRead = newHaveReadCheckbox.checked;
-        let valid = true;
-        for (const field of requiredNewBookFields) {
-            field.reportValidity();
-            if (!field.validity.valid) {
-                valid = false;
-                break;
-            }
-        }
-        if (valid) {
-            addBook(title, author, numPages, isRead);
-        }
+        addBook(title, author, numPages, isRead);
+        return true;
     };
 
     const addBook = function(title, author, pageCount, isRead) {
@@ -302,6 +307,37 @@ LibraryController = (function() {
         let book = myLibrary.getBookById(id);
         book.markRead(!book.isRead);
         LibraryView.refreshBook(id);
+    };
+
+    const _validateNewBookForm = function() {
+        console.log("Validating new book form...");
+        
+        if (!newTitleInput.checkValidity()) {
+            if (newTitleInput.validity.valueMissing) {
+                newTitleInput.setCustomValidity("Please enter the book's title.");
+            }
+        }
+
+        if (!newAuthorInput.checkValidity()) {
+            if (newAuthorInput.validity.valueMissing) {
+                newAuthorInput.setCustomValidity("Please enter the book's author.");
+            }
+        }
+
+        if (!newPageCountInput.checkValidity()) {
+            if (newPageCountInput.validity.valueMissing) {
+                newPageCountInput.setCustomValidity(
+                    "Please enter the number of pages in this book.");
+            }
+        }
+
+        for (const field of requiredNewBookFields) {
+            field.reportValidity();
+            if (!field.validity.valid) {
+                return false;
+            }
+        }
+        return true;
     };
 
     return {
