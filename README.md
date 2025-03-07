@@ -6,4 +6,4 @@ However, it is just a demo; its changes won't persist when you
 reload the page.
 
 This app is live; you can try it here:
-[https://mckathlin.github.io/odin-library/](https://mckathlin.github.io/odin-library/)
+[Odin Library by McKathlin](https://mckathlin.github.io/odin-library/)
